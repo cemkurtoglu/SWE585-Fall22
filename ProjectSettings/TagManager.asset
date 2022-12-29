@@ -9,6 +9,8 @@ TagManager:
   - Trampoline
   - Mushroom
   - BuzzBoy
+  - Ghost
+  - Tree
   layers:
   - Default
   - TransparentFX
