@@ -9,9 +9,10 @@ public class UIController : MonoBehaviour
     
     public static UIController instance;
     public Slider healthSlider;
-    public TMP_Text healthText, timeText;
+    public TMP_Text healthText, timeText, coinText;
     private double playerHealth;
     private float levelTimer;
+    private double coinCollected;
 
     private void Awake() {
         instance = this;
@@ -26,6 +27,10 @@ public class UIController : MonoBehaviour
         healthSlider.value = healthSlider.maxValue;
         UpdateHealthDisplay(playerHealth);
         levelTimer = 0f;
+        coinText.text = "0";
+
+
+
         
     }
 
@@ -42,6 +47,12 @@ public class UIController : MonoBehaviour
 
         healthText.text = "Health: " + health + "/" + playerHealth;
         healthSlider.value = (float)health;
+
+    }
+
+    public void UpdateCoinDisplay(double coins, double size){
+        
+        coinText.text = coins +"/"+coins;
 
     }
 

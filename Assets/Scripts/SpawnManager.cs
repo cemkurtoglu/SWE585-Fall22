@@ -14,6 +14,8 @@ public class SpawnManager : MonoBehaviour
     public Vector3 respawnPoint;
 
     private PlayerController playerController;
+    public GameObject ghostPrefab;
+    public GameObject ghostContainer;
 
 
     private void Awake() {
@@ -28,6 +30,7 @@ public class SpawnManager : MonoBehaviour
         playerController = FindObjectOfType<PlayerController>();
         respawnPoint = playerController.transform.localPosition;
         // StartCoroutine(spawnRoutine(4.0f));
+        StartCoroutine(ghostSpawnRoutine(10.0f));
 
         
     }
@@ -36,6 +39,7 @@ public class SpawnManager : MonoBehaviour
     void Update()
     {
         checkLife();
+
     }
     public void checkLife(){
         if (playerLife <= 0){
@@ -92,6 +96,14 @@ public class SpawnManager : MonoBehaviour
         UIController.instance.UpdateHealthDisplay(this.playerLife);
         if (playerLife <= 0){
             PlayerHealthManager();
+        }
+    }
+
+    IEnumerator ghostSpawnRoutine(float seconds){
+        while (isPlayerAlive){
+            GameObject ghost = Instantiate(ghostPrefab);
+            ghost.transform.parent = ghostContainer.transform;
+            yield return new WaitForSeconds(seconds);
         }
     }
 

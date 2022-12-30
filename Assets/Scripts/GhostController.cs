@@ -8,7 +8,6 @@ public class GhostController : MonoBehaviour
     public float speed;
     public Vector3 startPosition;
     public Vector3 endPosition;
-    public List<Collider> avoidCollisionList;
 
 
     // Start is called before the first frame update
@@ -36,6 +35,7 @@ public class GhostController : MonoBehaviour
         // float z = Random.Range(-15,70);
         float z = startPosition.z;
         transform.position = new Vector3(x,y,z);
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0f,180f,0f),Time.deltaTime);
     }
 
     private void reuseAliveEnemy(){
@@ -47,15 +47,20 @@ public class GhostController : MonoBehaviour
     }
     private void setAvoidableCollisionObjects(){
 
-        ignoreCollectionOfObject("Tree");
-        ignoreCollectionOfObject("BuzzBoy");
+        ignoreCollectionOfObjects("Tree");
+        ignoreCollectionOfObjects("BuzzBoy");
+        ignoreCollectionOfObjects("Trampoline");
+        ignoreCollectionOfObjects("Mushroom");
+        ignoreCollectionOfObjects("Coin");
+
+
 
 
         
 
 
     }
-    private void ignoreCollectionOfObject(string tag){
+    private void ignoreCollectionOfObjects(string tag){
         
         foreach (var item in GameObject.FindGameObjectsWithTag(tag))
         {
@@ -63,6 +68,21 @@ public class GhostController : MonoBehaviour
 
         }
 
+    }
+
+    private void OnCollisionEnter(Collision other) {
+        
+        if(other.collider.tag == "Player"){
+            PlayerController playerController = FindObjectOfType<PlayerController>();
+            playerController.SetIsHit(true);
+            playerController.GetComponent<Rigidbody>().AddForce(new Vector3(0f,2f,0f)* 2.0f, ForceMode.Impulse);
+            playerController.GetSpawnManager().playerLife = playerController.GetSpawnManager().playerLife - 1;
+            UIController.instance.UpdateHealthDisplay(playerController.GetSpawnManager().playerLife);
+            Debug.Log("Player Life: " + playerController.GetSpawnManager().playerLife);
+            gameObject.SetActive(false);
+            playerController.SetIsHit(true);
+
+        }
     }
     
 

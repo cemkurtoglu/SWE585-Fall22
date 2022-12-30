@@ -28,7 +28,10 @@ public class EnemyController : MonoBehaviour
     [Tooltip("Wait X amount of seconds to return")]
     public float returnCounter = 3f;
 
+    private void Awake() {
+        ignoreCollectionOfObjects("Coin");
 
+    }
 
     void Start()
     {
@@ -63,7 +66,8 @@ public class EnemyController : MonoBehaviour
                 UIController.instance.UpdateHealthDisplay(playerController.GetSpawnManager().playerLife);
                 Debug.Log("Player Life: " + playerController.GetSpawnManager().playerLife);
                 currentState = EnemyState.idle;
-            
+                playerController.SetIsHit(true);
+           
             
 
         }
@@ -174,5 +178,14 @@ public class EnemyController : MonoBehaviour
 
             }
         }
+    }
+    private void ignoreCollectionOfObjects(string tag){
+        
+        foreach (var item in GameObject.FindGameObjectsWithTag(tag))
+        {
+            Physics.IgnoreCollision(GetComponent<Collider>(),item.GetComponent<Collider>(),true);
+
+        }
+
     }
 }

@@ -16,6 +16,13 @@ public class PlayerController : MonoBehaviour
     private float contactThreshold = 30;          // Acceptable difference in degrees for Trampoline
     private Vector3 validDirection = Vector3.up;  // What you consider to be upwards for Trampolune
 
+    [Header("Set the Respawn Flashing Behavior")]
+    [Space(10)]
+
+    public GameObject[] flameBoyParts;
+    public float flashCounter;
+    private float flashTime;
+    private bool isHit;
 
     
 
@@ -33,6 +40,9 @@ public class PlayerController : MonoBehaviour
         spawnManager =  GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         UIController.instance.UpdateHealthDisplay(spawnManager.playerLife);
 
+        isHit = false;
+        flashTime = flashCounter;
+
 
 
 
@@ -49,10 +59,6 @@ public class PlayerController : MonoBehaviour
         SetCollisionBasedBehaviour(other,false);
     }
 
-    private void FixedUpdate() {
-
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -61,6 +67,7 @@ public class PlayerController : MonoBehaviour
         SetDirection();
         SetJumpBehavior();
         SetPlayerMovementAnimation();
+        FlashWhenHit();
 
         
    
@@ -123,6 +130,8 @@ public class PlayerController : MonoBehaviour
                 playerRigidbody.AddForce(new Vector3(0f,2f,-2f)* jumpForce, ForceMode.Impulse);
                 spawnManager.setPlayerLife(spawnManager.playerLife - 0.5);
                 other.gameObject.SetActive(false);
+                isHit = true;
+                
                 break;
             case "Trampoline":
                 for (int k=0; k < other.contacts.Length; k++) {
@@ -132,12 +141,10 @@ public class PlayerController : MonoBehaviour
                         break;
              }
          }
-
                 break;
-            
-
-
-
+            case "Coin":
+                FindObjectOfType<Coin>().DestroyCoin(other);                
+                break;
             
         }
 
@@ -151,10 +158,44 @@ public class PlayerController : MonoBehaviour
     
 
     }
+    
     public SpawnManager GetSpawnManager(){
         return spawnManager;
     }
 
+    public void FlashWhenHit(){
+
+        if (isHit){
+
+
+            flashCounter -= Time.deltaTime;
+
+            if(flashCounter >= 0 ){
+
+                foreach (var item in flameBoyParts){
+                    item.SetActive(!item.activeSelf);
+                }
+                
+            } else {
+                isHit = false;
+                foreach (var item in flameBoyParts){
+                item.SetActive(true);
+                flashCounter = flashTime;
+                }
+
+            }
+            
+        }
+
+
+        
+
+
+    }
+
+    public void SetIsHit(bool isHit){
+        this.isHit = isHit;
+    }
 
 }
 
