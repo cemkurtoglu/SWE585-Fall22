@@ -4,21 +4,25 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
+    public static Coin instance;
+
     public List<GameObject> coinList;
-    private double coinListSize;
+    private double coinCollected;
 
     private void Awake() {
-        coinListSize = coinList.Count;
-       FindObjectOfType<UIController>().UpdateCoinDisplay(0,coinList.Count);
+        instance = this;
+    }
+    private void Start() {
+        coinCollected = 0;
     }
 
     public void DestroyCoin(Collision coin){
 
         Destroy(coin.gameObject);
+        coinCollected++;
 
-        // double coinCollected = coinList.Count - coinListSize;
 
-        FindObjectOfType<UIController>().UpdateCoinDisplay(coinList.Count, coinListSize);
+        FindObjectOfType<UIController>().UpdateCoinDisplay(coinCollected,coinList.Count);
 
     }
 }

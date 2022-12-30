@@ -27,7 +27,8 @@ public class UIController : MonoBehaviour
         healthSlider.value = healthSlider.maxValue;
         UpdateHealthDisplay(playerHealth);
         levelTimer = 0f;
-        coinText.text = "0";
+        UpdateCoinDisplay(0,FindObjectOfType<Coin>().coinList.Count);
+
 
 
 
@@ -52,7 +53,7 @@ public class UIController : MonoBehaviour
 
     public void UpdateCoinDisplay(double coins, double size){
         
-        coinText.text = coins +"/"+coins;
+        coinText.text = coins + "/" + size;
 
     }
 
