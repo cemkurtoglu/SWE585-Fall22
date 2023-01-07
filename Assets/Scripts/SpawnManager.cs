@@ -46,6 +46,7 @@ public class SpawnManager : MonoBehaviour
             setIsPlayerAlive(false);
             Debug.Log("Game over"); 
             UIController.instance.DisplayGameOverMessage();
+
             playerController.gameObject.SetActive(false);
         }
     }

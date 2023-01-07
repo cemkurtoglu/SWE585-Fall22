@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
+
 
 public class UIController : MonoBehaviour
 {
@@ -66,16 +68,24 @@ public class UIController : MonoBehaviour
 
         fadeScreen.color = new Color(fadeScreen.color.r,fadeScreen.color.g,fadeScreen.color.b, Mathf.MoveTowards(fadeScreen.color.a, 1f, fadeSpeed *Time.deltaTime));
         gameOverText.color = new Color(gameOverText.color.r,gameOverText.color.g,gameOverText.color.b, Mathf.MoveTowards(gameOverText.color.a, 255f, fadeSpeed *Time.deltaTime));
-
+        StartCoroutine(changeScene());
 
     }
 
     public void DisplaySuccessMessage(){
 
-    Debug.Log("You Won");
+        Debug.Log("You Won");
 
-    fadeScreen.color = new Color(fadeScreen.color.r,fadeScreen.color.g,fadeScreen.color.b, Mathf.MoveTowards(fadeScreen.color.a, 1f, fadeSpeed *Time.deltaTime));
-    youWonText.color = new Color(youWonText.color.r,youWonText.color.g,youWonText.color.b, Mathf.MoveTowards(youWonText.color.a, 255f, fadeSpeed *Time.deltaTime));
+        fadeScreen.color = new Color(fadeScreen.color.r,fadeScreen.color.g,fadeScreen.color.b, Mathf.MoveTowards(fadeScreen.color.a, 1f, fadeSpeed *Time.deltaTime));
+        youWonText.color = new Color(youWonText.color.r,youWonText.color.g,youWonText.color.b, Mathf.MoveTowards(youWonText.color.a, 255f, fadeSpeed *Time.deltaTime));
+        StartCoroutine(changeScene());
+
+
+    }
+
+    IEnumerator changeScene(){
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene(0);
 
 
     }
