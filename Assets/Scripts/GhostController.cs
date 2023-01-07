@@ -9,14 +9,16 @@ public class GhostController : MonoBehaviour
     public Vector3 startPosition;
     public Vector3 endPosition;
 
+    private void OnEnable() {
+        setAvoidableCollisionObjects();
+
+    }
 
     // Start is called before the first frame update
-    private void Awake() {
-        setAvoidableCollisionObjects();
-    }
     void Start()
     {
         initRandomPosition();
+
     }
 
     // Update is called once per frame
@@ -64,7 +66,7 @@ public class GhostController : MonoBehaviour
         
         foreach (var item in GameObject.FindGameObjectsWithTag(tag))
         {
-            Physics.IgnoreCollision(GetComponent<Collider>(),item.GetComponent<Collider>(),true);
+            Physics.IgnoreCollision(GetComponent<Collider>(),item.GetComponent<Collider>());
 
         }
 

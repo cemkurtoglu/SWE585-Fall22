@@ -11,6 +11,7 @@ TagManager:
   - BuzzBoy
   - Ghost
   - Tree
+  - Coin
   layers:
   - Default
   - TransparentFX

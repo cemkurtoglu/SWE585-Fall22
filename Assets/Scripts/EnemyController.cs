@@ -28,8 +28,10 @@ public class EnemyController : MonoBehaviour
     [Tooltip("Wait X amount of seconds to return")]
     public float returnCounter = 3f;
 
-    private void Awake() {
+    private void OnEnable() {
         ignoreCollectionOfObjects("Coin");
+        ignoreCollectionOfObjects("Ghost");
+
 
     }
 
@@ -183,7 +185,7 @@ public class EnemyController : MonoBehaviour
         
         foreach (var item in GameObject.FindGameObjectsWithTag(tag))
         {
-            Physics.IgnoreCollision(GetComponent<Collider>(),item.GetComponent<Collider>(),true);
+            Physics.IgnoreCollision(GetComponent<Collider>(),item.GetComponent<Collider>());
 
         }
 
